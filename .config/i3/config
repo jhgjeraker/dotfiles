@@ -10,10 +10,6 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod1
-set $left h
-set $down j
-set $up k
-set $right l
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -23,34 +19,25 @@ font pango:monospace 8
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
 
-# Start XDG autostart .desktop files using dex. See also
-# https://wiki.archlinux.org/index.php/XDG_Autostart
-exec --no-startup-id dex --autostart --environment i3
-
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -c 292929 --nofork
 
-# NetworkManager is the most popular way to manage wireless networks on Linux,
-# and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
+exec --no-startup-id blueman-applet
+exec --no-startup-id picom
+exec --no-startup-id systemctl --user restart redshift-gtk.service
+exec --no-startup-id autorandr --change
+exec --no-startup-id ibus-daemon -drxR
 
-# Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+exec_always --no-startup-id setxkbmap -option ctrl:nocaps
+exec_always --no-startup-id $HOME/.fehbg
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
-
-# move tiling windows via drag & drop by left-clicking into the title bar,
-# or left-clicking anywhere into the window while holding the floating modifier.
-tiling_drag modifier titlebar
 
 # start a terminal
 bindsym $mod+Return exec alacritty
@@ -78,10 +65,8 @@ bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
-# split in horizontal orientation
+# split in vertical and horisontal orientation
 bindsym $mod+b split h
-
-# split in vertical orientation
 bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
@@ -100,7 +85,6 @@ bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
-
 # focus the child container
 #bindsym $mod+d focus child
 
@@ -151,15 +135,10 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
-
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym h resize shrink width 10 px or 10 ppt
-        bindsym j resize grow height 10 px or 10 ppt
-        bindsym k resize shrink height 10 px or 10 ppt
-        bindsym l resize grow width 10 px or 10 ppt
+        bindsym h resize shrink width 5 px or 5 ppt
+        bindsym j resize grow height 5 px or 5 ppt
+        bindsym k resize shrink height 5 px or 5 ppt
+        bindsym l resize grow width 5 px or 5 ppt
 
         # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
@@ -169,10 +148,69 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+set $bg         #292929
+set $bg-light   #3c3836
+set $fg         #ebdbb2
+set $red        #fb4934
+
+for_window [class="^.*"] border pixel 3
+# [none|vertical|horizontal|both|smart]
+# hide_edge_borders both
+
+gaps inner 0
+gaps outer 0
+
+# class                 border      backgr.     text    indicator   child_border
+client.focused          $bg-light   $bg-light   $fg     $bg         $red
+client.focused_inactive $bg-light   $bg-light   $fg     $bg         $bg
+client.unfocused        #333333     #222222     #888888 #292d2e     #222222
+client.urgent           #2f343a     #900000     #ffffff #900000     #900000
+client.placeholder      #000000     #0c0c0c     #ffffff #000000     #0c0c0c
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
     position top
 
-    status_command while ~/.config/i3/status.sh; do sleep 15; done
+    # When the status_command prints a new line to stdout, swaybar updates.
+    # The default just shows the current date and time.
+    status_command while ~/.config/i3status/status.sh; do sleep 15; done
+
+    colors {
+        statusline $fg
+        background $bg
+        #                   Border      Background  Foreground
+        focused_workspace   $red        $red        $bg
+        inactive_workspace  $bg         $bg         $fg
+    }
+    tray_padding 5
 }
+
+bindsym XF86MonBrightnessUp exec light -A 5
+bindsym XF86MonBrightnessDown exec light -U 5
+
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+bindsym Print exec flameshot gui
+
+# Suspend
+bindsym Mod4+s exec systemctl suspend
+# Lock Screen
+bindsym Mod4+l exec i3lock -f -c 292929
+# Power profile selector.
+bindsym $mod+p exec bash /usr/local/bin/sysinfo.sh
+# Screenshot
+# bindsym Print exec grim -g "$(slurp)" "$(xdg-user-dir PICTURES)/screenshots/$(date '+%Y-%m-%d %H:%M:%S').jpeg"
+
+# Move workspaces between monitors.
+bindsym $mod+Shift+x move workspace to output up
+bindsym $mod+Shift+z move workspace to output down
+bindsym $mod+z move workspace to output left
+bindsym $mod+x move workspace to output right
