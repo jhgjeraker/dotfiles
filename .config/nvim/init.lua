@@ -19,7 +19,7 @@ require('packer').startup(function(use)
             'williamboman/mason-lspconfig.nvim',
 
             -- Useful status updates for LSP
-            'j-hui/fidget.nvim',
+            -- 'j-hui/fidget.nvim',
 
             -- Additional lua configuration, makes nvim stuff amazing
             'folke/neodev.nvim',
@@ -43,10 +43,12 @@ require('packer').startup(function(use)
         after = 'nvim-treesitter',
     }
 
-  -- Git related plugins
-  use 'tpope/vim-fugitive'
-  use 'tpope/vim-rhubarb'
-  use 'lewis6991/gitsigns.nvim'
+    -- Git related plugins
+    use 'tpope/vim-fugitive'
+    use 'tpope/vim-rhubarb'
+    use 'lewis6991/gitsigns.nvim'
+    use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
+    use 'kyazdani42/nvim-web-devicons'
 
 
   use {'ellisonleao/gruvbox.nvim', requires = {'rktjmp/lush.nvim'}}
@@ -119,7 +121,7 @@ vim.o.smartcase = true
 
 -- Decrease update time
 vim.o.updatetime = 250
-vim.wo.signcolumn = 'auto' -- Only display signcolumn when necessary.
+vim.wo.signcolumn = 'yes'
 
 -- Set colorscheme
 vim.o.termguicolors = true
@@ -348,6 +350,7 @@ local on_attach = function(_, bufnr)
     vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
         vim.lsp.buf.format()
     end, { desc = 'Format current buffer with LSP' })
+    nmap('<leader>f', vim.lsp.buf.format, '[F]ormat current buffer with LSP')
 end
 
 -- Enable the following language servers
@@ -398,7 +401,7 @@ mason_lspconfig.setup_handlers {
 }
 
 -- Turn on lsp status information
-require('fidget').setup()
+-- require('fidget').setup()
 
 -- nvim-cmp setup
 local cmp = require 'cmp'
