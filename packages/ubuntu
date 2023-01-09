@@ -5,3 +5,4 @@ libncurses5-dev
 libreadline6-dev
 libsqlite3-dev
 liblzma-dev
+python3-tk
