@@ -278,8 +278,7 @@ local luasnip = require 'luasnip'
 cmp.setup {
     snippet = {
         expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-            -- luasnip.lsp_expand(args.body)
+            luasnip.lsp_expand(args.body)
         end,
     },
     mapping = cmp.mapping.preset.insert {
@@ -341,6 +340,7 @@ local on_attach = function(_, bufnr)
     nmap('<leader>f', vim.lsp.buf.format, '[F]ormat current buffer with LSP')
 
     nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+    nmap('gD', '<cmd>tab split | lua vim.lsp.buf.definition()<CR>', '[G]oto [D]efinition new tab')
     -- TODO: Create goto definition in new tab.
     nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
     nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
