@@ -56,6 +56,7 @@ require('packer').startup(function(use)
     use 'lewis6991/gitsigns.nvim'
     use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
     use 'kyazdani42/nvim-web-devicons'
+    use 'f-person/git-blame.nvim'
 
 
     -- Aesthetics
