@@ -411,6 +411,11 @@ mason_lspconfig.setup_handlers {
 --                                                                    nvim-lint
 --
 require('lint').linters_by_ft = {
-    python = {'flake8',}
+    python = {'flake8',},
+    sh = {'shellcheck',},
 }
-vim.cmd "autocmd BufWritePost *.py lua require('lint').try_lint()"
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+  callback = function()
+    require("lint").try_lint()
+  end,
+})
