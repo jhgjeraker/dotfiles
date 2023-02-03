@@ -148,7 +148,7 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-set $bg         #292929
+set $bg         #282828
 set $bg-light   #3c3836
 set $bg-dark    #1d2021
 set $fg         #ebdbb2
@@ -158,7 +158,7 @@ for_window [class="^.*"] border pixel 3
 # [none|vertical|horizontal|both|smart]
 # hide_edge_borders both
 
-gaps inner 0
+gaps inner 20
 gaps outer 0
 
 # class                 border      backgr.     text    indicator   child_border
@@ -206,7 +206,7 @@ bindsym Mod4+s exec systemctl suspend
 # Lock Screen
 bindsym Mod4+l exec i3lock -f -c 292929
 # Power profile selector.
-bindsym $mod+p exec bash /usr/local/bin/sysinfo.sh
+bindsym $mod+p exec bash /usr/local/bin/power-manager.sh
 # Screenshot
 # bindsym Print exec grim -g "$(slurp)" "$(xdg-user-dir PICTURES)/screenshots/$(date '+%Y-%m-%d %H:%M:%S').jpeg"
 
