@@ -51,10 +51,7 @@ alias ll='ls -lh'
 alias la='ls -lah'
 
 alias py='python3'
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --glob "!.git/*" --glob "!node_modules/*" --glob "!vendor/*" 2> /dev/null'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+alias pyinit='source /usr/local/bin/pyenv-init.sh'
 
 # ----------------------------------------------------------------------------
 # Development
@@ -65,6 +62,7 @@ export PATH="$PATH:$HOME/dev/go/bin"
 
 # Disruptive Technologies
 export DT_CREDENTIALS_FILE="$HOME/.config/disruptive/credentials.json"
+source '/usr/local/bin/dt-completion.bash'
 
 # Google Cloud
 # The next line updates PATH for the Google Cloud SDK.
@@ -75,7 +73,10 @@ if [ -f "$HOME/dev/google-cloud-sdk/completion.bash.inc" ]; then . "$HOME/dev/go
 # Terraform
 export PATH="$HOME/.tfenv/bin:$PATH"
 
-# Pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+# Kubernetes
+source '/usr/local/bin/kubectl-completion.bash'
+
+# fzf
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --glob "!.git/*" --glob "!node_modules/*" --glob "!vendor/*" 2> /dev/null'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
