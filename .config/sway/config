@@ -214,7 +214,8 @@ exec gammastep-indicator
     bindsym $mod+space focus mode_toggle
 
     # Move focus to the parent container
-    bindsym $mod+a focus parent
+    bindsym $mod+p focus parent
+    bindsym $mod+c focus child
 #
 # Scratchpad:
 #
