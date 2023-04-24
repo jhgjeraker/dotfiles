@@ -146,7 +146,7 @@ exec gammastep-indicator
     # Lock Screen
     bindsym Mod4+l exec 'swaylock -f -c 292929'
     # Power profile selector.
-    bindsym $mod+p exec bash /usr/local/bin/sysinfo.sh
+    bindsym $mod+p exec bash /usr/local/bin/power-manager.sh
     # Screenshot
     bindsym Print exec grim -g "$(slurp)" "$(xdg-user-dir PICTURES)/screenshots/$(date '+%Y-%m-%d %H:%M:%S').jpeg"
 #
