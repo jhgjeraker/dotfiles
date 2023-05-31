@@ -12,7 +12,7 @@ if command -v powerprofilesctl &> /dev/null; then
         powerprofilesctl set power-saver
     elif [[ "$mode" == "$mode_2" ]]; then
         powerprofilesctl set balanced
-    else
+    elif [[ "$mode" == "$mode_3" ]]; then
         powerprofilesctl set performance
     fi
 elif command -v system76-power &> /dev/null; then
@@ -20,7 +20,7 @@ elif command -v system76-power &> /dev/null; then
         system76-power profile battery
     elif [[ "$mode" == "$mode_2" ]]; then
         system76-power profile balanced
-    else
+    elif [[ "$mode" == "$mode_3" ]]; then
         system76-power profile performance
     fi
 else
