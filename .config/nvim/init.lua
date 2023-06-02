@@ -87,7 +87,7 @@ local plugins = {
                     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
                     ['<C-f>'] = cmp.mapping.scroll_docs(4),
                     ['<C-Space>'] = cmp.mapping.complete(),
-                    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+                    ['<CR>'] = cmp.mapping.confirm({ select = false }),
                 },
                 sources = {
                     { name = "nvim_lsp", priority = 1000 },
