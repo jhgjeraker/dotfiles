@@ -13,7 +13,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- leader must be mapped before Lazy setup (according to README)
 vim.g.mapleader = ","
-local languages = { "lua", "python", "go", "rust", "html", "css", "markdown" }
+local languages = { "lua", "python", "go", "rust", "html", "css", "markdown", "terraform" }
 local servers = {
     gopls = {},
     rust_analyzer = {},
@@ -297,6 +297,9 @@ local plugins = {
                 delay = 100,
             })
         end,
+    },
+    {
+        "github/copilot.vim",
     },
 }
 
