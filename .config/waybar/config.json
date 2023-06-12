@@ -1,0 +1,38 @@
+{
+    "layer": "bottom",
+    "position": "top",
+    "spacing": 20,
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": ["clock"],
+    "modules-right": ["custom/tailscale", "custom/powerprofile", "wireplumber", "upower", "tray"],
+    "sway/window": {
+        "max-length": 50
+    },
+    "upower": {
+        "icon-size": 15,
+        "tooltip": true
+    },
+    "clock": {
+        "format": "{:%a, %d. %b  %H:%M}"
+    },
+    "tray": {
+    },
+    "wireplumber": {
+        "format": "󰕾  {volume}%",
+        "format-muted": "󰝟      %",
+        "max-volume": 100,
+        "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +1%",
+        "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -1%"
+    },
+    "custom/powerprofile": {
+        "exec": "~/.config/waybar/scripts/powerprofile.sh",
+        "on-click": "bash ~/.local/bin/power-manager.sh",
+        "restart-interval": 1,
+        "format": "pwr: {}"
+    },
+    "custom/tailscale": {
+        "exec": "~/.config/waybar/scripts/tailscale.sh",
+        "restart-interval": 1,
+        "format": "ts: {}"
+    }
+}

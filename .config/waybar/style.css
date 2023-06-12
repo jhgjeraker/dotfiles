@@ -1,0 +1,40 @@
+@define-color fg #abb2bf;
+@define-color bg #1e222a;
+@define-color bg-light #282c34;
+@define-color red #e06c75;
+@define-color blue #61afef;
+@define-color green #98c379;
+
+* {
+    font-family: "iA Writer Mono S:style=Regular";
+    font-size: 14px;
+}
+
+window#waybar {
+    background: @bg;
+    color: @fg;
+}
+
+#workspaces button {
+    padding: 0 5px;
+    border-radius: 0px;
+    color: @fg;
+}
+
+#workspaces button.focused {
+    background-color: @red;
+    background: @red;
+    color: @bg;
+}
+
+#upower {
+    color: @blue;
+}
+
+#wireplumber {
+    color: @green;
+}
+
+#custom-powerprofile {
+    color: @red
+}
