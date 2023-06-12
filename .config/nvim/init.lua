@@ -301,6 +301,23 @@ local plugins = {
     {
         "github/copilot.vim",
     },
+    {
+        "simrat39/rust-tools.nvim",
+        ft = "rust",
+        config = function()
+            local rt = require("rust-tools")
+            rt.setup({
+                server = {
+                    on_attach = function(_, bufnr)
+                        -- Hover actions
+                        vim.keymap.set("n", "K", rt.hover_actions.hover_actions, { buffer = bufnr })
+                        -- Code action groups
+                        vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+                    end,
+                },
+            })
+        end,
+    },
 }
 
 local opts = {
@@ -377,29 +394,3 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>D', vim.diagnostic.setloclist)
 vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
-
--- Use LspAttach autocommand to only map the following keys
--- after the language server attaches to the current buffer
---vim.api.nvim_create_autocmd('LspAttach', {
---    group = vim.api.nvim_create_augroup('UserLspConfig', {}),
---    callback = function(ev)
---        -- Enable completion triggered by <c-x><c-o>
---        vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
---
---        local nmap = function(keys, func, desc)
---            if desc then
---                desc = 'LSP: ' .. desc
---            end
---            vim.keymap.set('n', keys, func, { buffer = ev.buf, desc = desc })
---        end
---
---        -- Buffer local mappings.
---        -- See `:help vim.lsp.*` for documentation on any of the below functions
---        nmap('gd', vim.lsp.buf.definition, "[g]oto [d]efinition")
---        nmap('gD', '<cmd>tab split | lua vim.lsp.buf.definition()<CR>', "[g]oto [D]efinition in new tab")
---        nmap('gr', vim.lsp.buf.references, "[g]oto [r]erences")
---        nmap('K', vim.lsp.buf.hover, "hover")
---        nmap('<leader>rn', vim.lsp.buf.rename, "rename")
---        nmap('<leader>f', function() vim.lsp.buf.format { async = true } end, "format")
---    end,
---})
