@@ -4,7 +4,13 @@ mode_1='1 power saver'
 mode_2='2 balanced'
 mode_3='3 performance'
 
-mode="$(echo -e "$mode_1\n$mode_2\n$mode_3" | dmenu)"
+if [[ $(echo "$XDG_SESSION_TYPE") == "wayland" ]]; then
+    menu=bemenu
+else
+    menu=dmenu
+fi
+
+mode="$(echo -e "$mode_1\n$mode_2\n$mode_3" | $menu)"
 
 # Depending on the distro, power-manager may be `system76-power` or ...
 if command -v powerprofilesctl &> /dev/null; then
