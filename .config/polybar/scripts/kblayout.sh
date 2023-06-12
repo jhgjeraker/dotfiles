@@ -8,7 +8,7 @@ then
     echo "$lang"
 elif [ "${engine}" == 'anthy' ]
 then
-    echo 'か'
+    echo 'カナ'
 elif [ "${engine}" == 'nor' ] || [ "${engine}" == 'nob' ]
 then
     echo 'no'

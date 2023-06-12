@@ -24,11 +24,11 @@ font pango:monospace 8
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -c 292929 --nofork
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -c 1e222a --nofork
 
 exec --no-startup-id nm-applet
 exec --no-startup-id blueman-applet
-exec --no-startup-id picom
+# exec --no-startup-id picom
 # exec --no-startup-id redshift-gtk
 exec --no-startup-id ibus-daemon -drxR
 
@@ -56,18 +56,11 @@ bindsym $mod+d exec --no-startup-id dmenu_run
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
-bindsym $mod+h exec sway-overfocus split-lt float-lt output-ls
-bindsym $mod+j exec sway-overfocus split-dt float-dt output-ds
-bindsym $mod+k exec sway-overfocus split-ut float-ut output-us
-bindsym $mod+l exec sway-overfocus split-rt float-rt output-rs
-bindsym $mod+Tab exec sway-overfocus group-rw group-dw
-bindsym $mod+Shift+Tab exec sway-overfocus group-lw group-uw
-
 # change focus
-# bindsym $mod+h focus left
-# bindsym $mod+j focus down
-# bindsym $mod+k focus up
-# bindsym $mod+l focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # move focused window
 bindsym $mod+Shift+h move left
@@ -94,8 +87,8 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 # focus the parent/child containers
-bindsym $mod+p focus parent
-bindsym $mod+c focus child
+bindsym $mod+Tab focus parent
+bindsym $mod+Shift+Tab focus child
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -111,28 +104,28 @@ set $ws9 "9"
 set $ws10 "10"
 
 # switch to workspace
-bindsym Mod4+1 workspace number $ws1
-bindsym Mod4+2 workspace number $ws2
-bindsym Mod4+3 workspace number $ws3
-bindsym Mod4+4 workspace number $ws4
-bindsym Mod4+5 workspace number $ws5
-bindsym Mod4+6 workspace number $ws6
-bindsym Mod4+7 workspace number $ws7
-bindsym Mod4+8 workspace number $ws8
-bindsym Mod4+9 workspace number $ws9
-bindsym Mod4+0 workspace number $ws10
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
 
 # move focused container to workspace
-bindsym Mod4+Shift+1 move container to workspace number $ws1
-bindsym Mod4+Shift+2 move container to workspace number $ws2
-bindsym Mod4+Shift+3 move container to workspace number $ws3
-bindsym Mod4+Shift+4 move container to workspace number $ws4
-bindsym Mod4+Shift+5 move container to workspace number $ws5
-bindsym Mod4+Shift+6 move container to workspace number $ws6
-bindsym Mod4+Shift+7 move container to workspace number $ws7
-bindsym Mod4+Shift+8 move container to workspace number $ws8
-bindsym Mod4+Shift+9 move container to workspace number $ws9
-bindsym Mod4+Shift+0 move container to workspace number $ws10
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -157,13 +150,12 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-set $bg         #272727
-set $bg-light   #3c3836
-set $bg-dark    #1d2021
-set $fg         #ebdbb2
-set $accent     #fb4934
+set $bg         #282c34
+set $bg-dark    #1e222a
+set $fg         #abb2bf
+set $accent     #e06c75
 
-for_window [class="^.*"] border pixel 2
+for_window [class="^.*"] border pixel 3
 # [none|vertical|horizontal|both|smart]
 hide_edge_borders smart
 
@@ -171,30 +163,11 @@ gaps inner 15
 gaps outer 0
 
 # class                 border      backgr.     text    indicator   child_border
-client.focused          $bg-light   $bg-light   $fg     $bg         $accent
-client.focused_inactive $bg-light   $bg-light   $fg     $bg         $bg-dark
-client.unfocused        $bg-dark    $bg-dark    $fg     $bg         $bg-dark
-client.urgent           $bg-dark    $bg-dark    $fg     $bg         $bg-dark
-client.placeholder      $bg-dark    $bg-dark    $fg     $bg         $bg-dark
-
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-# bar {
-#     position top
-#
-#     # When the status_command prints a new line to stdout, swaybar updates.
-#     # The default just shows the current date and time.
-#     status_command while ~/.config/i3status/status.sh; do sleep 15; done
-#
-#     colors {
-#         statusline $fg
-#         background $bg
-#         #                   Border      Background  Foreground
-#         focused_workspace   $accent     $accent        $bg
-#         inactive_workspace  $bg         $bg         $fg
-#     }
-#     tray_padding 5
-# }
+client.focused          $bg         $bg         $fg     $bg         $accent
+client.focused_inactive $bg         $bg         $fg     $bg         $bg-dark
+client.unfocused        $bg         $bg-dark    $fg     $bg-dark    $bg-dark
+client.urgent           $bg         $bg-dark    $fg     $bg-dark    $bg-dark
+client.placeholder      $bg         $bg-dark    $fg     $bg-dark    $bg-dark
 
 bindsym XF86MonBrightnessUp exec light -A 5
 bindsym XF86MonBrightnessDown exec light -U 5
@@ -213,7 +186,7 @@ bindsym Print exec flameshot gui
 # Suspend
 bindsym Mod4+s exec systemctl suspend
 # Lock Screen
-bindsym Mod4+l exec i3lock -f -c 292929
+bindsym Mod4+l exec i3lock -f -c 1e222a
 # Power profile selector.
 bindsym Mod4+p exec bash /usr/local/bin/power-manager.sh
 # Screenshot
