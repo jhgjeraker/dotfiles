@@ -33,14 +33,24 @@ local linters = {
 
 local plugins = {
     {
-        "joshdick/onedark.vim",
+        "sainnhe/gruvbox-material",
         lazy = false,    -- colorschemes should not be lazy-loaded
         priority = 1000, -- make sure this plugin is loaded first
         config = function()
             vim.o.termguicolors = true
-            vim.cmd([[ colorscheme onedark ]])
+            vim.g.gruvbox_material_foreground = "material"
+            vim.cmd([[ colorscheme gruvbox-material ]])
         end,
     },
+    -- {
+    --     "joshdick/onedark.vim",
+    --     lazy = false,    -- colorschemes should not be lazy-loaded
+    --     priority = 1000, -- make sure this plugin is loaded first
+    --     config = function()
+    --         vim.o.termguicolors = true
+    --         vim.cmd([[ colorscheme onedark ]])
+    --     end,
+    -- },
     {
         "nvim-lualine/lualine.nvim",
         lazy = false,
