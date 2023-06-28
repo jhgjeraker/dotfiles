@@ -1,0 +1,204 @@
+# -----------------------------------------------
+# sxhkd
+#
+# Reload sxhkd configuration.
+super + Escape
+    pkill -USR1 -x sxhkd
+
+# -----------------------------------------------
+# bspwm
+#
+# Quit/restart bspwm.
+super + alt + {q,r}
+    bspc {quit,wm -r}
+
+# Refresh bspwm.
+super + r
+    bash /usr/local/bin/bspwm-refresh.sh &
+
+# Close a single window.
+alt + shift + q
+    bspc node -c
+
+# Toggle monocle (fullscreen) layout.
+alt + m
+    bspc desktop -l next
+alt + f
+    bspc node -t \~fullscreen
+
+# -----------------------------------------------
+# State / Flags
+#
+# Set node state.
+super + {t,shift + t,g,f}
+    bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+# Set node flags.
+super + {m,x,y,z}
+    bspc node -g {marked,locked,sticky,private}
+
+# -----------------------------------------------
+# Focus / Swap
+#
+# Focus node in given direction.
+alt + {_,shift + }{h,j,k,l}
+    bspc node -{f,s} {west,south,north,east}
+
+# Focus or send node to given desktop.
+super + {_,shift + }{1-9,0}
+    bspc {desktop -f,node -d} '{1-9,10}'
+
+# Send all windows in current desktop to another desktop.
+alt + shift + Tab
+    bspc node -f @first
+
+alt + Tab
+    bspc node -f @parent
+
+alt + {_,shift +}d
+    bspc {desktop --focus,node --to-desktop} next --follow
+
+alt + {_,shift +}a
+    bspc {desktop --focus,node --to-desktop} prev --follow
+
+# -----------------------------------------------
+# Receptacle
+#
+# Insert receptacle.
+alt + ctrl + i; {h,j,k,l}
+    bspc node --presel-dir {west,south,north,east} -i
+
+# Move node to open receptable.
+alt + ctrl + i; i
+    bspc node $(bspc query -N -n focused) -n $(bspc query -N -n .leaf.\!window)
+
+# Kill open receptacle.
+alt + ctrl + i; Escape
+    for win in `bspc query -N -n .leaf.\!window`; do bspc node $win -k; done;
+
+# -----------------------------------------------
+# Preselect
+#
+# Preselect in direction.
+alt + ctrl + {h,j,k,l}
+    bspc node -p {west,south,north,east}
+
+# Preselect a ratio.
+alt + ctrl + {1-9}
+    bspc node -o 0.{1-9}
+
+# Cancel preselection for the focused node
+alt + ctrl + Escape
+    bspc node -p cancel
+
+# Cancel preselection for the focused desktop
+alt + ctrl + shift + Escape
+    bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+# -----------------------------------------------
+# Move / Resize
+#
+# Expand one of a node's sides.
+super + alt + {h,j,k,l}
+    bspc node -z {left -50 0,bottom 0 50,top 0 -50,right 50 0}
+
+# Contract one of a node's sides.
+super + alt + shift + {h,j,k,l}
+    bspc node -z {right -50 0,top 0 50,bottom 0 -50,left 50 0}
+
+# Equally resize splits.
+super + alt + space
+    bspc node @/ -B
+
+# Move a floating window.
+super + alt + {Left,Down,Up,Right}
+    bspc node -v {-50 0,0 50,0 -50,50 0}
+
+# -----------------------------------------------
+# Multi-Monitor Functionality
+#
+# Focus monitor.
+alt + {z,x}
+    bspc desktop -f "{prev,next}:focused" --follow
+
+# Move desktop to next/prev monitor.
+alt + shift + {z,x}
+    bspc desktop -m {prev,next} --follow && \
+    bspc query -M | while read -r monitor; do \
+        bspc query -D -m "$monitor" --names | sort -g | xargs -rd'\n' bspc monitor "$monitor" -o; \
+    done
+
+# Sort desktops on active monitor, then remove default 'Desktop'.
+super + x
+    bspc query -M | while read -r monitor; do \
+        bspc query -D -m "$monitor" --names | sort -g | xargs -rd'\n' bspc monitor "$monitor" -o; \
+    done && \
+    bspc desktop Desktop --remove
+
+# -----------------------------------------------
+# Multimedia Keys
+#
+# Increase volume.
+XF86AudioRaiseVolume
+    pactl set-sink-volume @DEFAULT_SINK@ +5%
+
+# Decrease volume.
+XF86AudioLowerVolume
+    pactl set-sink-volume @DEFAULT_SINK@ -5%
+
+# Toggle volume mute.
+XF86AudioMute
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# Toggle microphone mute.
+XF86AudioMicMute
+    pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+XF86AudioPlay
+    playerctl play-pause
+XF86AudioNext
+    playerctl next
+XF86AudioPrev
+    playerctl previous
+
+# Increase screen brightness.
+XF86MonBrightnessUp
+    light -A 5
+
+# Decrease screen brightness.
+XF86MonBrightnessDown
+    light -U 5
+
+# -----------------------------------------------
+# Programs
+#
+# Terminal emulator.
+alt + Return
+    gnome-terminal
+
+# Launcher.
+alt + Escape
+    dmenu_run
+
+super + p
+    "$HOME/.local/bin/power-manager.sh"
+
+# Lock screen.
+super + l
+    i3lock --color 282c34
+
+# Suspend.
+super + s
+    systemctl suspend
+
+# Set US keyboard layout.
+super + u
+    setxkbmap us
+
+# Set norwegian keyboard layout.
+super + n
+    setxkbmap no
+
+# Launch screenshot utility.
+Print
+    flameshot gui
