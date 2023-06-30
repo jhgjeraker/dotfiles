@@ -33,24 +33,14 @@ local linters = {
 
 local plugins = {
     {
-        "sainnhe/gruvbox-material",
+        "joshdick/onedark.vim",
         lazy = false,    -- colorschemes should not be lazy-loaded
         priority = 1000, -- make sure this plugin is loaded first
         config = function()
             vim.o.termguicolors = true
-            vim.g.gruvbox_material_foreground = "material"
-            vim.cmd([[ colorscheme gruvbox-material ]])
+            vim.cmd([[ colorscheme onedark ]])
         end,
     },
-    -- {
-    --     "joshdick/onedark.vim",
-    --     lazy = false,    -- colorschemes should not be lazy-loaded
-    --     priority = 1000, -- make sure this plugin is loaded first
-    --     config = function()
-    --         vim.o.termguicolors = true
-    --         vim.cmd([[ colorscheme onedark ]])
-    --     end,
-    -- },
     {
         "nvim-lualine/lualine.nvim",
         lazy = false,
@@ -349,20 +339,19 @@ vim.o.shiftwidth = 4
 vim.o.expandtab = true
 vim.o.smartindent = true
 
-vim.o.ignorecase = true                                      -- case insensitive search
-vim.keymap.set('n', '<ESC>', ':nohlsearch<CR>')              -- remove highlight by pressing Esc
+vim.o.ignorecase = true                         -- case insensitive search
+vim.keymap.set('n', '<ESC>', ':nohlsearch<CR>') -- remove highlight by pressing Esc
 
-vim.o.completeopt = "menu,menuone,noselect"                  -- Options for insert mode completion
+vim.o.completeopt = "menu,menuone,noselect"     -- Options for insert mode completion
 
-vim.o.number = true                                          -- line numbering
-vim.o.relativenumber = true                                  -- relative line numbering
-vim.o.ruler = true                                           -- cursor ruler
-vim.o.cursorline = true                                      -- cursor ruler
+vim.o.number = true                             -- line numbering
+vim.o.relativenumber = true                     -- relative line numbering
+vim.o.ruler = true                              -- cursor ruler
+vim.o.cursorline = true                         -- cursor ruler
 
-vim.o.foldenable = true                                      -- enable fold for nvim-ufo
-vim.o.foldlevel = 99                                         -- set high foldlevel for nvim-ufo
-vim.o.foldlevelstart = 99                                    -- start with all code unfolded
-vim.o.foldcolumn = vim.fn.has "nvim-0.9" == 1 and "1" or nil -- show foldcolumn in nvim 0.9
+vim.o.foldenable = true                         -- enable fold for nvim-ufo
+vim.o.foldlevel = 99                            -- set high foldlevel for nvim-ufo
+vim.o.foldlevelstart = 99                       -- start with all code unfolded
 
 ------------------------------------------------------------------------------
 --                                                                    Keybinds
