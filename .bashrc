@@ -65,20 +65,10 @@ alias r='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --glob "!.git/*" --glob "!node_modules/*" --glob "!vendor/*" 2> /dev/null'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/kepler/Downloads/google-cloud-sdk/path.bash.inc' ]; then . '/home/kepler/Downloads/google-cloud-sdk/path.bash.inc'; fi
 
-# ----------------------------------------------------------------------------
-# Development
-#
-# Golang
-export GOPATH="$HOME/dev/go"
-export PATH="$PATH:$HOME/dev/go/bin"
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/kepler/Downloads/google-cloud-sdk/completion.bash.inc' ]; then . '/home/kepler/Downloads/google-cloud-sdk/completion.bash.inc'; fi
 
-# Rust
-export RUSTUP_HOME="$HOME/dev/rust/rustup"
-export CARGO_HOME="$HOME/dev/rust/cargo"
-. "/$HOME/dev/rust/cargo/env"
-
-# Disruptive Technologies
-export DT_CREDENTIALS_FILE="$HOME/.config/disruptive/credentials.json"
-source "/$HOME/.local/bin/dt-completion.bash"
-
+export PATH="$HOME/.tfenv/bin:$PATH"

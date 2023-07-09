@@ -17,7 +17,7 @@ super + r
     bash /usr/local/bin/bspwm-refresh.sh &
 
 # Close a single window.
-alt + shift + q
+alt + q
     bspc node -c
 
 # Toggle monocle (fullscreen) layout.
@@ -45,15 +45,16 @@ alt + {_,shift + }{h,j,k,l}
     bspc node -{f,s} {west,south,north,east}
 
 # Focus or send node to given desktop.
+# super + {_,shift + }{1-9,0}
 super + {_,shift + }{1-9,0}
-    bspc {desktop -f,node -d} '{1-9,10}'
+    bspc {desktop -f,node -d} '{A-1,B-1,C-1,D-1,E-1,F-1,G-1,H-1,I-1,1}'
 
 # Send all windows in current desktop to another desktop.
-alt + shift + Tab
-    bspc node -f @first
-
 alt + Tab
     bspc node -f @parent
+
+alt + shift + Tab
+    bspc node -f @first
 
 alt + {_,shift +}d
     bspc {desktop --focus,node --to-desktop} next --follow
@@ -124,16 +125,8 @@ alt + {z,x}
 # Move desktop to next/prev monitor.
 alt + shift + {z,x}
     bspc desktop -m {prev,next} --follow && \
-    bspc query -M | while read -r monitor; do \
-        bspc query -D -m "$monitor" --names | sort -g | xargs -rd'\n' bspc monitor "$monitor" -o; \
-    done
-
-# Sort desktops on active monitor, then remove default 'Desktop'.
-super + x
-    bspc query -M | while read -r monitor; do \
-        bspc query -D -m "$monitor" --names | sort -g | xargs -rd'\n' bspc monitor "$monitor" -o; \
-    done && \
-    bspc desktop Desktop --remove
+    source $HOME/bspc/bspc_common.sh && \
+    _sort_desktops_per_monitor
 
 # -----------------------------------------------
 # Multimedia Keys
@@ -174,10 +167,10 @@ XF86MonBrightnessDown
 #
 # Terminal emulator.
 alt + Return
-    gnome-terminal
+    alacritty
 
 # Launcher.
-alt + Escape
+alt + space
     dmenu_run
 
 super + p
@@ -191,14 +184,33 @@ super + l
 super + s
     systemctl suspend
 
-# Set US keyboard layout.
-super + u
-    setxkbmap us
-
-# Set norwegian keyboard layout.
-super + n
-    setxkbmap no
+# # Set US keyboard layout.
+# super + u
+#     setxkbmap us
+# 
+# # Set norwegian keyboard layout.
+# super + n
+#     setxkbmap no
 
 # Launch screenshot utility.
 Print
     flameshot gui
+
+
+
+# -----------------------------------------------
+# Experimental
+# Delete dekstop.
+alt + Escape
+    bash $HOME/Development/Repositories/dotfiles/scripts/bspc/delete_desktop.sh
+
+# New project.
+alt + shift + p
+    bash $HOME/Development/Repositories/dotfiles/scripts/bspc/new_project.sh
+
+# New desktop in project.
+alt + p
+    bash $HOME/Development/Repositories/dotfiles/scripts/bspc/new_desktop.sh
+
+alt + bracket{left,right}
+    bash $HOME/Development/Repositories/dotfiles/scripts/bspc/swap_desktop.sh {prev,next}
